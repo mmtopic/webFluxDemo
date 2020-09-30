@@ -8,25 +8,42 @@
 
     <script type="text/javascript">
         //需要判断浏览器支不支持，可以去w3c进行查看
-
-        var source = new EventSource('sse');
+        var source = new EventSource('sse/time');
         source.onmessage = function (event) {
             console.info(event.data);
             document.getElementById('result').innerText = event.data
         };
 
+        var source = new EventSource('sse');
+        source.onmessage = function (event) {
+            console.info(event.data);
+            var item = JSON.parse(event.data);
+            console.info(item)
+            console.info($("#"+item.symbol)[0]);
+
+            if ($("#"+item.symbol)[0]){
+                //存在修改
+                console.info("update")
+                $("#symbol_bid").text(item.bid  );
+                $("#symbol_ask").text(item.ask );
+            }else {
+                //不存在插入
+                console.info("insert")
+                var line = "<div class=\"row\" style='border: 1px solid gray' id=\""+item.symbol+"\"><div class=\"col-md-6\" style='border: 1px solid gray' id=\"symbol_code\">"+item.symbol+"</div><div class=\"col-md-3\" style='border: 1px solid gray' id=\"symbol_bid\">"+item.bid+"</div><div class=\"col-md-3\" style='border: 1px solid gray' id=\"symbol_ask\">"+item.ask+"</div></div>"
+                $(".container").append(line);
+            }
+        };
     </script>
 </head>
 <body>
     <center><h1>行情</h1></center>
-    <div class="container" style="max-width: 300px;background-color: lightcyan;border: slateblue solid 1px">
-        <div id="result"></div>
-        <div class="row">
-            <div class="col-md-6">代码</div>
-            <div class="col-md-3">bid</div>
+    <div class="container" style="min-width:300px;">
+        <div id="result" class="text-center" style="font-size: large"></div>
+        <div class="row" style="background-color: lightcyan;border: slateblue solid 1px;">
+            <div class="col-md-6" >代码</div>
+            <div class="col-md-3" >bid</div>
             <div class="col-md-3">ask</div>
         </div>
-
 
     </div>
 </body>
