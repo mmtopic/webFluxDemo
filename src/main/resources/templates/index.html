@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>Title</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        //需要判断浏览器支不支持，可以去w3c进行查看
+
+        var source = new EventSource('sse');
+        source.onmessage = function (event) {
+            console.info(event.data);
+            document.getElementById('result').innerText = event.data
+        };
+
+    </script>
+</head>
+<body>
+    <center><h1>行情</h1></center>
+    <div class="container" style="max-width: 300px;background-color: lightcyan;border: slateblue solid 1px">
+        <div id="result"></div>
+        <div class="row">
+            <div class="col-md-6">代码</div>
+            <div class="col-md-3">bid</div>
+            <div class="col-md-3">ask</div>
+        </div>
+
+
+    </div>
+</body>
+</body>
+</html>
